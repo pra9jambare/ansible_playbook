@@ -1,0 +1,11 @@
+---
+- name: Copy Command Test
+  hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Copy Test File To Client Server
+    copy:
+     src: /home/ubuntu/Test
+     dest: /tmp/
+     mode: '0644'

@@ -1,0 +1,14 @@
+---
+- name: Run Simple Command
+  hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Run command on ubuntu server
+    apt:
+      name: nginx
+      state: latest
+    register: app_install_op
+  - name: Print the application installation status
+    debug:
+      msg: "{{ app_install_op }}"

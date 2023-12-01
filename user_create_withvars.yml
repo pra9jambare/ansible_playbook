@@ -1,0 +1,12 @@
+---
+- name: Create user using Variables
+  hosts: all
+  become: yes
+  become_method: sudo
+  vars:
+    user1: Akshay
+  tasks:
+  - name: Creation of ubuntu user
+    user:
+      name: {{user1}}
+      state: present

@@ -1,0 +1,16 @@
+---
+- name: Create user using with_items
+  hosts: all
+  become: yes
+  become_method: sudo
+  vars:
+    user1: Akshay
+    user2: Rahul
+  tasks:
+  - name: Create ubuntu user
+    user:
+      name: "{{item}}"
+      state: absent
+    with_items:
+      - "{{user1}}"
+      - "{{user2}}"

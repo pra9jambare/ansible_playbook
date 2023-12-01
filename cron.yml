@@ -1,0 +1,11 @@
+---
+- name: Cron Job
+  hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Setting cron for client
+    cron:
+      name: Send date every minute in /tmp
+      minute: "*"
+      job: echo "$(date)" > /tmp/date

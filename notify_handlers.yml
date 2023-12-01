@@ -1,0 +1,22 @@
+---
+- name: Create user using with_items
+  hosts: all
+  become: yes
+  become_method: sudo
+  vars:
+    user1: Akshay
+    user2: Rahul
+  tasks:
+  - name: Create ubuntu user
+    user:
+      name: "{{item}}"
+      state: present
+    with_items:
+      - "{{user1}}"
+      - "{{user2}}"
+    notify:
+      - Create Temp File
+  handlers:
+  - name: Create Temp File
+    shell:
+      "echo 'This files is created using Temp file '> /tmp/playbook_notify"

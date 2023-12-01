@@ -1,0 +1,10 @@
+---
+- name: Run Simple Command
+  hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Run command on ubuntu server
+    user:
+      name: Rahul
+      state: present
