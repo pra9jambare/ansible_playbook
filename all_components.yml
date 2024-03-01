@@ -1,0 +1,53 @@
+---
+- name: Run Simple Command
+  hosts: all
+  become: yes
+  become_method: sudo
+  vars:
+    user1: Akshay
+    user2: Rahul
+  tasks:
+
+  - name: Run command on ubuntu server
+    shell:
+          "echo 'This is added via playbook' > /tmp/playbook_check"
+
+  - name: Copy Test File To Client Server
+    copy:
+     src: /home/ubuntu/Test
+     dest: /tmp/
+     mode: '0644'
+
+  - name: Install App
+    apt:
+      name: nginx
+      state: latest
+      register: app_install_op
+  - name: Print the application installation status
+    debug:
+      msg: "{{ app_install_op }}"
+
+  - name: Create ubuntu user
+    user:
+      name: "{{item}}"
+      state: present
+    with_items:
+      - "{{user1}}"
+      - "{{user2}}"
+    notify:
+      - Create Temp File
+  handlers:
+  - name: Create Temp File
+    shell:
+      "echo 'This files is created using Temp file '> /tmp/playbook_notify"
+  
+  - name: Setting cron for client
+    cron:
+      name: Send date every minute in /tmp
+      minute: "*"
+      job: echo "$(date)" > /tmp/date
+      register: cronjob
+
+  - name: Print the Cron job
+    debug:
+      msg: "{{ cronjob }}"
